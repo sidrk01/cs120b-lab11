@@ -12,6 +12,7 @@
 #include "simAVRHeader.h"
 #endif
 
+#include "../header/timer.h"
 #include "../header/ledmatrix.h"
 
 typedef struct _task {
