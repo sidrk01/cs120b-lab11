@@ -2,12 +2,12 @@
 #define __PADDLE_INPUT_H__
 
 //--------------------
-//Period: 100 ms
+//Period: 300 ms
 //-------------------
 
-#define button1 ~PINA & 0x01
-#define button2 ~PINA & 0x02
-#define button3 ~PINA & 0x04
+#define button1 ~PINB & 0x01
+#define button2 ~PINB & 0x02
+#define button3 ~PINB & 0x04
 
 //global states
 enum PaddleCheck {reset, wait, press_b1, press_b2};
