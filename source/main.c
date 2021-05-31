@@ -16,11 +16,17 @@
 #include "../header/ledmatrix.h"
 
 typedef struct _task {
-	signed char state;
-	unsigned long int period;
-	unsigned long elapsedTime;
-	int (*TickFct) (int);
+        signed char state;
+        unsigned long int period;
+        unsigned long elapsedTime;
+        int (*TickFct) (int);
 } task;
+
+        static task task1;
+        task* tasks[] = {&task1};
+
+        const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
+        const char start = -1;
 
 void TimerISR();
 
@@ -29,12 +35,7 @@ int main(void) {
 	DDRC = 0xFF; PORTC = 0x00;
 	DDRD = 0xFF; PORTD = 0x00;
     /* Insert your solution below */
- 	static task task1;
-	task* tasks[] {&task1};
 	
-	const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
-	const char start = -1;
-
 	task1.state = start;
 	task1.period = 100;
 	task1.elapsedTime = task1.period;
