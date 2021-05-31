@@ -13,8 +13,8 @@
 enum PaddleCheck {reset, wait, press_b1, press_b2};
 
 //write paddle pos 
-static unsigned char pattern = 0x80; //LED pattern - 0: LED off; 1: LEDon
-static unsigned char row =  0x19; //Row(s) displaying pattern.
+unsigned char pattern = 0x80; //LED pattern - 0: LED off; 1: LEDon
+unsigned char row =  0x19; //Row(s) displaying pattern.
 					//0: display pattern on row 
 					//1: do NOT display pattern on row
 
@@ -25,11 +25,11 @@ int Paddle_Input(int state){
 	break;
 	
 	case wait:
-		if (button1 && !button2 && !button3){
+		if ((button1) && !(button2) && !(button3)){
 			state = press_b1;
-		} else if (!button1 && button2 && !button3){
+		} else if (!(button1) && (button2) && !(button3)){
 			state = press_b2;
-		} else if (!button1 && !button2 && button3){
+		} else if (!(button1) && !(button2) && (button3)){
 			state = reset;
 		} else {
 			state = wait;
@@ -37,7 +37,7 @@ int Paddle_Input(int state){
 	break;
 
 	case press_b1:
-		if (!button1 && !button2 && !button3){
+		if (!(button1) && !(button2) && !(button3)){
 			state = wait;
 		} else {
 			state = press_b1;	
@@ -45,7 +45,7 @@ int Paddle_Input(int state){
 	break;
 
 	case press_b2:
-		if (!button1 && !button2 && !button3){
+		if (!(button1) && !(button2) && !(button3)){
 			state = wait;
 		} else {
 			state = press_b2;
