@@ -21,10 +21,9 @@ int Demo_Tick(int state) {
 	//Actions
 	switch (state){
 	case shift:
-	
-	break;	
 	PORTC = pattern; //Pattern to display 
         PORTD = row;    // Row(s) displaying pattern
+	break;
 	}
 	
 	return state;	
