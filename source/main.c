@@ -5,7 +5,7 @@
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
- *	code, is my own original work.
+ *	:wqcode, is my own original work.
  */
 #include <avr/io.h>
 #ifdef _SIMULATE_
@@ -33,7 +33,7 @@ void TimerISR();
 
 int main(void) {
     /* Insert DDR and PORT initializations */
-	DDRA = 0x00; PORTA = 0xFF;
+	DDRB = 0x00; PORTB = 0xFF;
 	DDRC = 0xFF; PORTC = 0x00;
 	DDRD = 0xFF; PORTD = 0x00;
     /* Insert your solution below */
@@ -44,7 +44,7 @@ int main(void) {
 	task1.TickFct = &Demo_Tick;
 	
 	task2.state = start;
-	task2.period = 200;
+	task2.period = 300;
 	task2.elapsedTime = task2.period;
 	task2.TickFct = &Paddle_Input;
 	
