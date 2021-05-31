@@ -21,11 +21,11 @@ int Demo_Tick(int state) {
 	//Actions
 	switch (state){
 	case shift:
-	PORTC = pattern; //Pattern to display 
-        PORTD = row;    // Row(s) displaying pattern
 	break;
 	}
 	
+	PORTC = pattern; //Pattern to display 
+        PORTD = row;    // Row(s) displaying pattern
 	return state;	
 }
 
