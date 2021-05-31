@@ -67,16 +67,16 @@ int Paddle_Input(int state){
 	case press_b1:
 
 	switch(row){
-	   case 0x1C:
-		row = 0x19;
-	   break;
-
-	   case 0x19:
+	   case 0x07:
 		row = 0x13;
 	   break;
 
 	   case 0x13:
-		row = 0x07;
+		row = 0x19;
+	   break;
+
+	   case 0x19:
+		row = 0x1C;
 	   break;
 		
 	   default:
@@ -88,16 +88,16 @@ int Paddle_Input(int state){
 	case press_b2:
 
 	switch(row){
-           case 0x07:
-                row = 0x13;
-           break;
-
-           case 0x13:
+           case 0x1C:
                 row = 0x19;
            break;
 
            case 0x19:
-                row = 0x1C;
+                row = 0x13;
+           break;
+
+           case 0x13:
+                row = 0x07;
            break;
         }
 	
