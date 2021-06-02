@@ -5,105 +5,96 @@
 //Period: 300 ms
 //-------------------
 
-#define button1 ~PINB & 0x01
-#define button2 ~PINB & 0x02
-#define button3 ~PINB & 0x04
+#define b1 ~PINB & 0x01
+#define b2 ~PINB & 0x02
+#define b3 ~PINB & 0x04
 
 //global states
-enum PaddleCheck {reset, wait, press_b1, press_b2};
+enum PaddleCheck {reset, b1_press, b1_wait, b2_press, b2_wait};
 
 //write paddle pos 
+unsigned char rows[3] = {0x03, 0x11, 0x18}
 unsigned char pattern = 0x80; //LED pattern - 0: LED off; 1: LEDon
-unsigned char row =  0x19; //Row(s) displaying pattern.
+unsigned int index = 1;
+unsigned char row =  rows[index]; //Row(s) displaying pattern.
 					//0: display pattern on row 
 					//1: do NOT display pattern on row
 
 int Paddle_Input(int state){
 	switch(state){
 	case reset:
-		state = wait;
+		if (!(b1) && !(b2) && !(b3)){
+			state = b1_press;	
+		} else if (!(b1) && (b2) && !(b3)){
+			state = b2_press;
+		} else {
+			state = reset;
+		}	
 	break;
 	
-	case wait:
-		if ((button1) && !(button2) && !(button3)){
-			state = press_b1;
-		} else if (!(button1) && (button2) && !(button3)){
-			state = press_b2;
-		} else if (!(button1) && !(button2) && (button3)){
+	case b1_press:
+		if (!(b1) && !(b2) && !(b3)){
+			state = b1_wait;
+		} else {
+			state = b1_press;
+		}
+	break;
+
+	case b2_press:
+		if (!(b1) && !(b2) && !(b3)){
+			state = b2_wait;
+		} else {
+			state = b2_press;
+		}
+	break;
+
+	case b1_wait:
+		if ((b1) && !(b2) && !(b3)){
+			state = b1_press;
+		} else if (!(b1) && (b2) && !(b3)){
+			state = b2_press;
+		} else if (!(b1) && !(b2) && (b3)){
 			state = reset;
 		} else {
-			state = wait;
+			state = b1_wait;
 		}
 	break;
-
-	case press_b1:
-		if (!(button1) && !(button2) && !(button3)){
-			state = wait;
+			
+	case b2_wait:
+		if ((b1) && !(b2) && !(b3)){
+			state = b1_press;
+		} else if (!(b1) && (b2) && !(b3)){
+			state = b2_press;
+		} else if (!(b1) && !(b2) && (b3)){
+			state = reset;
 		} else {
-			state = press_b1;	
+			state = b2_wait;
 		}
 	break;
-
-	case press_b2:
-		if (!(button1) && !(button2) && !(button3)){
-			state = wait;
-		} else {
-			state = press_b2;
-		}
-
-	break;
-
 	}
-
-	switch (state){
+	
+switch (state){
 	case reset:
-		pattern = 0x80;
-		row = 0x19;
+		index = 1; 
 	break;
-
-	case wait:
-	break;
-
-	case press_b1:
-
-	switch(row){
-	   case 0x07:
-		row = 0x13;
-	   break;
-
-	   case 0x13:
-		row = 0x19;
-	   break;
-
-	   case 0x19:
-		row = 0x1C;
-	   break;
 		
-	   default:
-           break;
-	}		
-	
+	case b1_press:
+		if (index < 2){
+			index++;
+		} 
 	break;
-
-	case press_b2:
-
-	switch(row){
-           case 0x1C:
-                row = 0x19;
-           break;
-
-           case 0x19:
-                row = 0x13;
-           break;
-
-           case 0x13:
-                row = 0x07;
-           break;
-        }
 	
+	case b2_press:
+		if (index > 0){
+			index--;
+		}
 	break;	
-	}	
+		
+	default:
+	break;
+}	
 
+row = rows[index];
 return state;
 }
 
