@@ -1,20 +1,6 @@
 #ifndef __BALL_MOVE_H__
 #define __BALL_MOVE_H__
 
-#define b4 ~PINB & 0x08
-#define b5 ~PINB & 0x04
-
-unsigned char xpos = 0x00; 
-unsigned char ypos = 0x00;
-
-unsigned char xpos_index = 0x08;
-unsigned long i = 0;
-
-unsigned char x_pos_right = 0x00;
-unsigned char x_pos_left = 0x00;
-unsigned char y_pos_up = 0x01;
-unsigned char y_pos_down = 0x00;
-
 enum Ball_Movement { ball_init, ball_start, ball_wait, ball_move, ball_bounce };
 
 int Ball_Tick(int state){
