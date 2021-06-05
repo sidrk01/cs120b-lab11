@@ -4,9 +4,6 @@
 #define b6 ~PINB & 0x10
 #define b7 ~PINB & 0x20
 
-unsigned char enemypaddlepos = 0x10;
-unsigned long enemyval = 0;
-
 enum paddleCheck2 { enemy_init, enemy_start, enemy_wait, enemy_press, enemy_release };
 
 int Enemy_Input (int state) {
