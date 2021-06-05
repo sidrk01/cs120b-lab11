@@ -16,6 +16,37 @@
 #include "../header/paddleinput.h"
 #include "../header/ledmatrix.h"
 
+#define b1 ~PINB & 0x01
+#define b2 ~PINB & 0x02
+#define b3 ~PINB & 0x40
+#define b4 ~PINB & 0x08
+#define b5 ~PINB & 0x04
+#define b6 ~PINB & 0x10
+#define b7 ~PINB & 0x20
+
+unsigned char xpos = 0x00; 
+unsigned char ypos = 0x00;
+
+unsigned char xpos_index = 0x08;
+unsigned long i = 0;
+
+//write paddle pos 
+unsigned char paddlepos = 0x10;
+//unsigned char rows[3] = {0x03, 0x11, 0x18}
+unsigned char autom = 0x00;
+//unsigned char pattern = 0x80; //LED pattern - 0: LED off; 1: LEDon
+unsigned int index = 1;
+//unsigned char row =  rows[index]; //Row(s) displaying pattern.
+					//0: display pattern on row 
+					//1: do NOT display pattern on row
+unsigned char x_pos_right = 0x00;
+unsigned char x_pos_left = 0x00;
+unsigned char y_pos_up = 0x01;
+unsigned char y_pos_down = 0x00;
+
+unsigned char enemypaddlepos = 0x10;
+unsigned long enemyval = 0;
+
 typedef struct _task {
         signed char state;
         unsigned long int period;
