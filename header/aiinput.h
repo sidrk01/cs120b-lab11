@@ -1,9 +1,6 @@
 #ifndef __AI_INPUT_H__
 #define __AI_INPUT_H__
 
-#define b6 ~PINB & 0x10
-#define b7 ~PINB & 0x20
-
 enum paddleCheck2 { enemy_init, enemy_start, enemy_wait, enemy_press, enemy_release };
 
 int Enemy_Input (int state) {
