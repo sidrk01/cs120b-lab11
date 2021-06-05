@@ -13,8 +13,10 @@
 #endif
 
 #include "../header/timer.h"
-#include "../header/paddleinput.h"
 #include "../header/ledmatrix.h"
+#include "../header/ballmove.h"
+#include "../header/paddleinput.h"
+#include "../header/aiinput.h"
 
 #define b1 ~PINB & 0x01
 #define b2 ~PINB & 0x02
@@ -54,8 +56,8 @@ typedef struct _task {
         int (*TickFct) (int);
 } task;
 
-        static task task1, task2;
-        task* tasks[] = {&task1, &task2};
+        static task task1, task2, task3, task4;
+        task* tasks[] = { &task1, &task2, &task3, &task4 };
 
         const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
         const char start = -1;
@@ -70,16 +72,26 @@ int main(void) {
     /* Insert your solution below */
 	
 	task1.state = start;
-	task1.period = 100;
+	task1.period = 1;
 	task1.elapsedTime = task1.period;
 	task1.TickFct = &Demo_Tick;
 	
 	task2.state = start;
-	task2.period = 300;
+	task2.period = 100;
 	task2.elapsedTime = task2.period;
-	task2.TickFct = &Paddle_Input;
+	task2.TickFct = &Ball_Tick;
 	
-	TimerSet(task1.period);
+	task3.state = start;
+	task3.period = 25;
+	task3.elapsedTime = task3.period;
+	task3.TickFct = &Paddle_Input;
+	
+	task4.state = start;
+	task4.period = 25;
+	task4.elapsedTime = task4_period;
+	task4.TickFct = &Enemy_Input;
+	
+	TimerSet(1);
 	TimerOn();
   
     while (1) {
