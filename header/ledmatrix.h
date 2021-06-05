@@ -5,7 +5,7 @@
 //Period: 100 ms 
 //------------------------
 
-enum Demo_States {init, start, start_seq, paddle_out};
+enum Demo_States {init, start, start_seq, paddle_out, ball_out, enemy_out};
 int Demo_Tick(int state) {
 	
 	//Transitions 
@@ -23,6 +23,14 @@ int Demo_Tick(int state) {
 		break;
 		
 		case paddle_out:
+			state = ball_out;
+		break;
+			
+		case ball_out:
+			state = enemy_out;
+		break;
+			
+		case enemy_out:
 			state = paddle_out;
 		break;
 	}
@@ -57,6 +65,49 @@ int Demo_Tick(int state) {
 			}
 			PORTD = 0xFE;
 		break;
+		
+		case ball_out:
+			if ((x_pos_left == 0x01) && (y_pos_up == 0x01) && (ypos == 0x80)){
+				ypos = ypos << 1;
+				xpos = xpos >> 1;
+				PORTD = ~ypos;
+				x_pos_left = 0x00;
+				x_pos_right = 0x01;
+				y_pos_up = 0x00;
+				y_pos_down = 0x01;
+			} else if ((x_pos_right == 0x01) && (y_pos_up  == 0x01) && (ypos == 0x80)){
+				ypos = ypos >> 1;
+				xpos = xpos << 1;
+				PORTD = ~ypos;
+				x_pos_left = 0x01;
+				x_pos_right = 0x00;
+				y_pos_up = 0x00;
+				y_pos_down = 0x01;
+			} else if ((x_pos_right == 0x01) && (y_pos_down == 0x01) && (ypos == 0x01)){
+				ypos = ypos << 1;
+				xpos = xpos << 1;
+				PORTD = ~ypos;
+				x_pos_left = 0x01;
+				x_pos_right = 0x00;
+				y_pos_up = 0x01;
+				y_pos_down = 0x00;
+			} else if ((x_pos_left == 0x01) && (y_pos_down == 0x01) && (ypos == 0x01)){
+				ypos = ypos << 1;
+				xpos = xpos >> 1;
+				PORTD = ~ypos;
+				x_pos_left = 0x00;
+				x_pos_right = 0x01;
+				y_pos_up = 0x01;
+				y_pos_down = 0x00;
+			} else {
+				PORTD = ~ypos;
+			}
+				PORTC = xpos;
+			break;
+			
+		case enemy_out:
+			PORTC = 0x7F;
+			
 	}
 	
 	return state;	
