@@ -24,7 +24,7 @@ int Enemy_Input (int state) {
     if (paddlepos != 0x20){
       state = enemy_press;
     } else {
-      state = enemy_wai;
+      state = enemy_wait;
     }
   }
  break;
