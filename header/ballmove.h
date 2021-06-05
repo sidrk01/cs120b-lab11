@@ -4,10 +4,10 @@
 enum Ball_Movement { ball_init, ball_start, ball_wait, ball_move, ball_bounce };
 
 int Ball_Tick(int state){
-  if (i == 999){
-    state = ball_init;
-    i = 0; 
-  }
+//  if (i == 999){
+    //state = ball_init;
+  //  i = 0; 
+  //}
   
   switch (state){
     case ball_init:
@@ -22,6 +22,7 @@ int Ball_Tick(int state){
         if (b4){
           state = ball_wait;
           paddlepos = 0x10;
+          enemypaddlepos = 0x10;
         }
       
       if (paddlepos == 0x20){
@@ -54,6 +55,7 @@ int Ball_Tick(int state){
         if (b4){
           state = ball_start;
           paddlepos = 0x10;
+          enemypaddlepos = 0x10;
         } else {
           state = ball_move;
         }
@@ -78,6 +80,7 @@ int Ball_Tick(int state){
         x_pos_right = 0x00;
         xpos_index = xpos;
         paddlepos = 0x10;
+        enemypaddlepos = 0x10;
     break;
       
     case ball_wait:
