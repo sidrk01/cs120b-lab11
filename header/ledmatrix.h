@@ -106,10 +106,36 @@ int Demo_Tick(int state) {
 			break;
 			
 		case enemy_out:
-			PORTC = 0x7F;
-			
+			PORTD = 0x7F;
+				if (autom == 0x01){
+					enemyval += 1;
+						if (enemyval >= 5000){
+							enemyval = 0;
+						}
+					} else {
+						if (enemypaddlepos == xpos){
+							//Do nothing	
+						} else if (enemypaddlepos < xpos){
+							enemypaddlepos += 1;
+						} else if (enemypaddlepos < xpos){
+							enemypaddlepos -= 1;
+						}
+					}
+				if (enemypaddlepos == 0x10){
+					PORTC = 0x38;
+				} else if (enemypaddlepos == 0x20){
+					PORTC = 0x70;
+				} else if (enemypaddlepos == 0x40){
+					PORTC = 0xE0;
+				} else if (enemypaddlepos == 0x08){
+					PORTC = 0x1C;
+				} else if (enemypaddlepos == 0x04){
+					PORTC = 0x0E;
+				} else if ((enemypaddlepos == 0x02) || (enemypaddlepos == 0x01)){
+					PORTC = 0x07;
+				}
+			break;
 	}
-	
 	return state;	
 }
 
