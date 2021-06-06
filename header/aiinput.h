@@ -1,6 +1,8 @@
 #ifndef __AI_INPUT_H__
 #define __AI_INPUT_H__
 
+#include <stdlib.h>
+
 enum paddleCheck2 { enemy_init };
 
 int Enemy_Input (int state) {
@@ -33,7 +35,7 @@ int Enemy_Input (int state) {
     } else {
       if (aipos <= 5){
         aipos += 1;
-      } else if {
+      } else {
         aipos -= 1;
       }
     }
