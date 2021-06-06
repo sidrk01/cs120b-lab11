@@ -1,66 +1,52 @@
 #ifndef __AI_INPUT_H__
 #define __AI_INPUT_H__
 
-enum paddleCheck2 { enemy_init, enemy_start, enemy_wait, enemy_press, enemy_release };
+enum paddleCheck2 { enemy_init };
 
 int Enemy_Input (int state) {
-  switch (state){
-    case enemy_init:
-        state = enemy_start;
-    break;
-      
-    case enemy_start:
-        state = enemy_wait;
-    break;
-      
-    case enemy_wait:
-      if (b6){
-        if (enemypaddlepos != 0x40){
-        state = enemy_press;
-        } else {
-        state = enemy_wait;
+ switch (state){
+     
+   default:
+  unsigned char tmpDispl = 0x00;
+  unsigned char bitmask = 0x01;
+  
+  int numRand = rand() % 10;
+  int posLoc = aipos - ballCol;
+  if (numRand < 7){
+    if (posLoc > 0){
+      if (aipos >= 2){
+        aipos -= 1;
       }
-  } else if (b7){
-    if (paddlepos != 0x20){
-      state = enemy_press;
+    } else if (posLoc < 0){
+      if (aipos <= 5){
+        aipos += 1;
+      }
+    }
+  } else {
+    if (posLoc > 0 && aipos <= 5){
+      aipos += 1;
+    } else if (posLoc < 0 && aipos >= 2){
+      aipos -= 1;
     } else {
-      state = enemy_wait;
+      if (aipos <= 5){
+        aipos += 1;
+      } else if {
+        aipos -= 1;
+      }
     }
   }
- break;
-      
-    case enemy_press:
-      state = enemy_release;
-    break;
-      
-    case enemy_release:
-       if (b6){
-        state = enemy_release;
-       } else if (b7){
-        state = enemy_release;
-       } else {
-        state = enemy_wait;
-       }
-    break;
+  
+  for (unsigned int i = 0; i <= aipos + 1; i++){
+    if ( i >= aipos - 1){
+      tmpDispl |= bitmask;
+    }
+    bitmask = bitmask << 1;
   }
   
-  switch (state){
-    case enemy_init:
-    case enemy_start:
-    case enemy_wait:
-    break;
+  displVal[0] = tmpDispl;
+  
+  break;
       
-    case enemy_press:
-      if (b6){
-        if (enemypaddlepos != 0x40){
-          enemypaddlepos = enemypaddlepos << 1;
-        } 
-      } else if (b7){
-        if (enemypaddlepos != 0x02){
-          enemypaddlepos = enemypaddlepos >> 1;
-        } 
-      }
-    break;
   }
   
   return state;
