@@ -6,91 +6,116 @@
 //-------------------
 
 //global states
-enum PaddleCheck {paddle_init, paddle_start, paddle_wait, paddle_press, paddle_release, auto_press, auto_release};
+enum PaddleCheck {paddle_init, paddle_wait, press_left, wait_left, press_right, wait_right, press_reset, wait_reset};
 
 int Paddle_Input(int state){
+	unsigned char displ = 0x00;
+	unsigned char bitmask = 0x01;
+
 	switch(state){
 		case paddle_init:
-			state = paddle_start;
-		break;
-		
-		case paddle_start:
 			state = paddle_wait;
 		break;
-		
+			
 		case paddle_wait:
 			if (b1){
-				if(paddlepos != 0x40){
-					state = paddle_press;
-				} else {
-					state = paddle_wait;
-				}
+				state = press_left;
 			} else if (b2){
-				if (paddlepos != 0x02){
-					state = paddle_press;
-				} else {
-					state = paddle_wait;
-				}
-			} else if (b3){
-				state = auto_press;
-			}
-		break;
-			
-		case auto_press:
-			if (b3){
-				state = auto_press;
+				state = press_right;
+			} else if (b3) {
+				state = press_reset;
 			} else {
-				state = autorelease;
+				state = paddle_wait;
 			}
 		break;
 			
-		case auto_release:
-			state = paddle_wait;
-		break;
-	
-		case paddle_press:
-			state = paddle_release;
+		case press_left:
+			if (b1){
+				state = wait_left; 
+			} else if (b2){
+				state = press_right;
+			} else {
+				state = paddle_wait;
+			}
 		break;
 			
-		case paddle_release:
+		case wait_left:
 			if (b1){
-				state = paddle_release;
+				state = wait_left;
 			} else if (b2){
-				state = paddle_release;
+				state = press_right;
+			} else {
+				state = paddle_wait;
+			}
+		break;
+		
+		case press_right:
+			if (b1){
+				state = press_left;
+			} else if (b2){
+				state = wait_right;
+			} else {
+				state = paddle_wait;
+			}
+		break;
+			
+		case wait_right:
+			if (b1){
+				state = press_left;
+			} else if (b2){
+				state = wait_right;
+			} else {
+				paddle_wait;
+			}
+		break;
+		
+		case press_reset:
+			state = wait_reset;
+		break;
+		
+		case wait_reset:
+			if (b3){
+				state = wait_reset;
 			} else {
 				state = paddle_wait;
 			}
 		break;
 	}
 	
-switch (state){
-	case paddle_init:
-	case paddle_start:
-	case paddle_wait:
-	break;
-		
-	case auto_release:
-		if (autom == 0x01){
-			autom = 0x00;
-		} else {
-			autom = 0x01;
-		}
-	break;
-		
-	case paddle_press:
-		if (b1){
-			if (paddlepos != 0x40){
-				paddlepos = paddlepos << 1;
-			} 
-		} else if (b2){
-			if (paddlepos != 0x02){
-				paddlepos paddlepos >> 1;
-			} else {
-				paddlepos = paddlepos;
+	switch (state){
+		case press_left:
+			if (playerpos <= 5){
+				playerpos += 1;
 			}
+		break;
+		
+		case press_right:
+			if (playerpos >= 2){
+				playerpos -= 1;
+			}
+		break;
+		
+		case press_reset:
+			playerpos = 4;
+			aipos = 3;
+			ballVal = 0x00;
+			ballrow = 0x03;
+			ballCol = 4;
+			rowDispl = 0x10;
+		break;
+		
+		default:
+		break;
+	}
+			
+	for (unsigned int i = 0; i <= playerpos + 1; i++){
+		if (i >= playerpos - 1){
+			displ |= bitmask;
 		}
-	break;
-}
+		bitmask = bitmask << 1;
+	}
+	rowDispl[4] = displ;
+			
 	return state;
 }
 #endif //__PADDLE__INPUT_H__
