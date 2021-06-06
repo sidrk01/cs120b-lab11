@@ -24,7 +24,7 @@ unsigned int playerpos = 4;
 unsigned int aipos = 3;
 
 unsigned char displVal[5];
-unsigned int currrow = 0;
+unsigned int currow = 0;
 
 unsigned char ballVal = 0x00;
 unsigned char ballRow = 0x03;
