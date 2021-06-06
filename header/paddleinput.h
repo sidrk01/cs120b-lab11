@@ -99,7 +99,7 @@ int Paddle_Input(int state){
 			playerpos = 4;
 			aipos = 3;
 			ballVal = 0x00;
-			ballrow = 0x03;
+			ballRow = 0x03;
 			ballCol = 4;
 			rowDispl = 0x10;
 		break;
