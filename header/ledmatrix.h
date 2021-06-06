@@ -5,136 +5,36 @@
 //Period: 100 ms 
 //------------------------
 
-enum Demo_States {init, start, start_seq, paddle_out, ball_out, enemy_out};
+enum Demo_States { init, output};
+
 int Demo_Tick(int state) {
+	unsigned char bitmask = 0x01;
 	
-	//Transitions 
 	switch(state){
 		case init:
-			state = start;
-		break;
-		
-		case start:
-			state = start_seq;
-		break;
-		
-		case start_seq:
-			state = paddle_out;
-		break;
-		
-		case paddle_out:
-			state = ball_out;
+			state = output;
 		break;
 			
-		case ball_out:
-			state = enemy_out;
-		break;
-			
-		case enemy_out:
-			state = paddle_out;
+		case output:
 		break;
 	}
-
-	//Actions
-	switch (state){
-		case init:
-			PORTC = 0xFF;
-		break;
 	
-		case start:
-			PORTD = 0x0F;
+	switch(state){
+		case output:
+			PORTC = displVal[currow];
+			for (unsigned int i = 0; i < currow; i++){
+				bitmask = bitmask << 1;
+			}
+			PORTD = ~bitmask;
+			
+			currow += 1;
+			if (currow >= 6){
+				currow = 0;
+			}
 		break;
 		
-		case start_seq:
-			PORTD = 0xF0;
+		default:
 		break;
-			
-		case paddle_out:
-			if (paddlepos == 0x10){
-				PORTC = 0x38; 
-			} else if (paddlepos == 0x20){
-				PORTC = 0x70;
-			} else if (paddlepos == 0x40){
-				PORTC = 0xE0;
-			} else if (paddlepos == 0x08){
-				PORTC = 0x1C;
-			} else if (paddlepos == 0x04){
-				PORTC = 0x0E;	
-			} else if (paddlepos == 0x02){
-				PORTC = 0x07;
-			}
-			PORTD = 0xFE;
-		break;
-		
-		case ball_out:
-			if ((x_pos_left == 0x01) && (y_pos_up == 0x01) && (ypos == 0x80)){
-				ypos = ypos << 1;
-				xpos = xpos >> 1;
-				PORTD = ~ypos;
-				x_pos_left = 0x00;
-				x_pos_right = 0x01;
-				y_pos_up = 0x00;
-				y_pos_down = 0x01;
-			} else if ((x_pos_right == 0x01) && (y_pos_up  == 0x01) && (ypos == 0x80)){
-				ypos = ypos >> 1;
-				xpos = xpos << 1;
-				PORTD = ~ypos;
-				x_pos_left = 0x01;
-				x_pos_right = 0x00;
-				y_pos_up = 0x00;
-				y_pos_down = 0x01;
-			} else if ((x_pos_right == 0x01) && (y_pos_down == 0x01) && (ypos == 0x01)){
-				ypos = ypos << 1;
-				xpos = xpos << 1;
-				PORTD = ~ypos;
-				x_pos_left = 0x01;
-				x_pos_right = 0x00;
-				y_pos_up = 0x01;
-				y_pos_down = 0x00;
-			} else if ((x_pos_left == 0x01) && (y_pos_down == 0x01) && (ypos == 0x01)){
-				ypos = ypos << 1;
-				xpos = xpos >> 1;
-				PORTD = ~ypos;
-				x_pos_left = 0x00;
-				x_pos_right = 0x01;
-				y_pos_up = 0x01;
-				y_pos_down = 0x00;
-			} else {
-				PORTD = ~ypos;
-			}
-				PORTC = xpos;
-			break;
-			
-		case enemy_out:
-			PORTD = 0x7F;
-				if (autom == 0x01){
-					enemyval += 1;
-						if (enemyval >= 5000){
-							enemyval = 0;
-						}
-					} else {
-						if (enemypaddlepos == xpos){
-							//Do nothing	
-						} else if (enemypaddlepos < xpos){
-							enemypaddlepos += 1;
-						} else if (enemypaddlepos < xpos){
-							enemypaddlepos -= 1;
-						}
-					}
-				if (enemypaddlepos == 0x10){
-					PORTC = 0x38;
-				} else if (enemypaddlepos == 0x20){
-					PORTC = 0x70;
-				} else if (enemypaddlepos == 0x40){
-					PORTC = 0xE0;
-				} else if (enemypaddlepos == 0x08){
-					PORTC = 0x1C;
-				} else if (enemypaddlepos == 0x04){
-					PORTC = 0x0E;
-				} else if ((enemypaddlepos == 0x02) || (enemypaddlepos == 0x01)){
-					PORTC = 0x07;
-				}
-			break;
 	}
 	return state;	
 }
