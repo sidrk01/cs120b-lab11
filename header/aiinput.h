@@ -4,14 +4,17 @@
 enum paddleCheck2 { enemy_init };
 
 int Enemy_Input (int state) {
- switch (state){
      
-   default:
+
   unsigned char tmpDispl = 0x00;
   unsigned char bitmask = 0x01;
   
-  int numRand = rand() % 10;
-  int posLoc = aipos - ballCol;
+ int numRand = rand() % 10;
+ int posLoc = aipos - ballCol;
+ 
+ switch(state){
+  default:
+  
   if (numRand < 7){
     if (posLoc > 0){
       if (aipos >= 2){
