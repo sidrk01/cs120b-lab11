@@ -35,10 +35,11 @@ unsigned int ballCol = 4;
 					//1: do NOT display pattern on row
 
 #include "../header/timer.h"
-//#include "../header/ledmatrix.h"
-//#include "../header/ballmove.h"
+#include "../header/ledmatrix.h"
 #include "../header/paddleinput.h"
-//#include "../header/aiinput.h"
+#include "../header/aiinput.h"
+#include "../header/ballmove.h"
+
 
 typedef struct _task {
         signed char state;
@@ -68,17 +69,17 @@ int main(void) {
 	task1.TickFct = &Demo_Tick;
 	
 	task2.state = start;
-	task2.period = 100;
+	task2.period = 1000;
 	task2.elapsedTime = task2.period;
 	task2.TickFct = &Ball_Tick;
 	
 	task3.state = start;
-	task3.period = 25;
+	task3.period = 20;
 	task3.elapsedTime = task3.period;
 	task3.TickFct = &Paddle_Input;
 	
 	task4.state = start;
-	task4.period = 25;
+	task4.period = 350;
 	task4.elapsedTime = task4_period;
 	task4.TickFct = &Enemy_Input;
 	
