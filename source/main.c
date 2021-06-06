@@ -80,7 +80,7 @@ int main(void) {
 	
 	task4.state = start;
 	task4.period = 350;
-	task4.elapsedTime = task4_period;
+	task4.elapsedTime = task4.period;
 	task4.TickFct = &Enemy_Input;
 	
 	TimerSet(1);
