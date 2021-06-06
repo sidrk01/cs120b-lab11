@@ -59,7 +59,7 @@ int Ball_Tick(int state){
                 if (ballRow > 1){
                     ballRow -= 1;
                 } else {
-                    if (aipos - 1 == balCol){
+                    if (aipos - 1 == ballCol){
                         colSwitch();
                         rowSwitch();
                         ballRow += 1;
