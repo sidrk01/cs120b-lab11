@@ -114,7 +114,7 @@ int Paddle_Input(int state){
 		}
 		bitmask = bitmask << 1;
 	}
-	rowDispl[4] = displ;
+	displVal[4] = displ;
 			
 	return state;
 }
