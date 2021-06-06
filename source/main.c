@@ -13,10 +13,10 @@
 #endif
 
 #include "../header/timer.h"
-#include "../header/ledmatrix.h"
-#include "../header/ballmove.h"
+//#include "../header/ledmatrix.h"
+//#include "../header/ballmove.h"
 #include "../header/paddleinput.h"
-#include "../header/aiinput.h"
+//#include "../header/aiinput.h"
 
 #define b1 ~PINB & 0x01
 #define b2 ~PINB & 0x02
