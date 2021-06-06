@@ -65,7 +65,7 @@ int Paddle_Input(int state){
 			} else if (b2){
 				state = wait_right;
 			} else {
-				paddle_wait;
+				state = paddle_wait;
 			}
 		break;
 		
