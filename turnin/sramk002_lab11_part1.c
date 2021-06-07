@@ -173,8 +173,8 @@ int Paddle_Input(int state){
 		break;
 	}
 			
-	for (unsigned int i = 0; i <= playerpos + 1; i++){
-		if (i >= playerpos - 1){
+	for (unsigned int i = 0; i < playerpos; i++){
+		if (i > playerpos){
 			displ |= bitmask;
 		}
 		bitmask = bitmask << 1;
@@ -199,20 +199,14 @@ int Enemy_Input (int state) {
   default:
   
   if (numRand < 7){
-    if (posLoc > 0){
-      if (aipos >= 2){
         aipos -= 1;
       }
     } else if (posLoc < 0){
-      if (aipos <= 5){
         aipos += 1;
       }
-    }
   } else {
-    if (posLoc > 0 && aipos <= 5){
       aipos += 1;
-    } else if (posLoc < 0 && aipos >= 2){
-      aipos -= 1;
+    } else if (posLoc < 0){
     } else {
       if (aipos <= 5){
         aipos += 1;
@@ -223,7 +217,7 @@ int Enemy_Input (int state) {
   }
   
   for (unsigned int i = 0; i <= aipos + 1; i++){
-    if ( i >= aipos - 1){
+    if ( i > aipos){
       tmpDispl |= bitmask;
     }
     bitmask = bitmask << 1;
@@ -274,19 +268,14 @@ int Ball_Tick(int state){
                 } else {
                     if (playerpos - 1 == ballCol){
                         colSwitch();
-                        rowSwitch();
                         ballRow -= 1;
                     } else if (playerpos + 1 == ballCol ){
-                        colSwitch();
-                        rowSwitch();
+=                        rowSwitch();
                         ballRow -= 1;
                     } else if (playerpos == ballCol){
                         colSwitch(); 
-                        ballRow -= 1;
                     } else {
-                        ballRow = 0x01;
                         ballCol = 4;
-                        rowDispl = 0x08;
                         ballVal = 0x03;
                         
                     }
@@ -297,20 +286,15 @@ int Ball_Tick(int state){
                 } else {
                     if (aipos - 1 == ballCol){
                         colSwitch();
-                        rowSwitch();
                         ballRow += 1;
                     } else if (aipos + 1 == ballCol){
-                        colSwitch();
                         rowSwitch();
                         ballRow += 1;
                     } else if (aipos == ballCol){
                         colSwitch();
-                        ballRow += 1;
                     } else {
                         ballRow = 0x03;
-                        ballCol = 4;
                         rowDispl = 0x10;
-                        ballVal = 0x00;
                         
                     }
                 }
@@ -319,18 +303,14 @@ int Ball_Tick(int state){
             if (ballVal & 0x01){
                 if (rowDispl <= 0x40){
                     rowDispl = rowDispl << 1;
-                    ballCol += 1;
                 } else {
-                    rowSwitch();
                     rowDispl = rowDispl >> 1;
                     ballCol -= 1;
                 }
             } else {
                 if (rowDispl >= 0x02){
                     rowDispl = rowDispl >> 1;
-                    ballCol -= 1;
                 } else {
-                    rowSwitch();
                     rowDispl = rowDispl << 1;
                     ballCol += 1;
                 }
