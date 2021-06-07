@@ -373,22 +373,22 @@ int main(void) {
 	DDRD = 0xFF; PORTD = 0x00;
 	
 	task1.state = start;
-	task1.period = 1;
+	task1.period = 3;
 	task1.elapsedTime = task1.period;
 	task1.TickFct = &Demo_Tick;
 	
 	task2.state = start;
-	task2.period = 1000;
+	task2.period = 500;
 	task2.elapsedTime = task2.period;
 	task2.TickFct = &Ball_Tick;
 	
 	task3.state = start;
-	task3.period = 20;
+	task3.period = 50;
 	task3.elapsedTime = task3.period;
 	task3.TickFct = &Paddle_Input;
 	
 	task4.state = start;
-	task4.period = 350;
+	task4.period = 300;
 	task4.elapsedTime = task4.period;
 	task4.TickFct = &Enemy_Input;
 	
