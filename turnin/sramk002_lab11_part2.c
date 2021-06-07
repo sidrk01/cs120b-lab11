@@ -5,7 +5,9 @@
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
- *	:wqcode, is my own original work.
+ *	code, is my own original work.
+ *
+ *	Demo Video: https://youtu.be/R1apILGtuwQ
  */
 
 #include <avr/io.h>
